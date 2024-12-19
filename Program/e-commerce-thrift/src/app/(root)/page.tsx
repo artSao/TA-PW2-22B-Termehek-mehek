@@ -1,13 +1,11 @@
 import { Button } from '@/components/ui/button'
+import { UserButton } from '@clerk/nextjs'
 import React from 'react'
 
-export default function home() {
+export default function Home() {
   return (
     <div className='p-4'>
-      <Button variant="destructive"
-      size="lg">
-        Click me
-      </Button>
+      <UserButton />
     </div>
   )
 }
