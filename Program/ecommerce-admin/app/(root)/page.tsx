@@ -1,14 +1,24 @@
 'use client'
 
-import Modal from "@/components/ui/model";
+import { useStoreModal } from "@/hooks/use-store-modal";
+import { useEffect } from "react";
+
 // import { UserButton } from "@clerk/nextjs";
 
-export default function Home() {
+const setupPage = () => {
+  const onOpen = useStoreModal((state) => state.onOpen)
+  const isOpen = useStoreModal((state) => state.isOpen)
+
+  useEffect(() => {
+    if (!isOpen)
+      onOpen()
+  }, [isOpen, onOpen])
+ 
   return (
     <div className="p-4">
-      <Modal title="test title" description="test description" isOpen onClose={()=>{}}>
-        children
-        </Modal>
+      Root Page
     </div>
   );
 }
+
+export default setupPage
