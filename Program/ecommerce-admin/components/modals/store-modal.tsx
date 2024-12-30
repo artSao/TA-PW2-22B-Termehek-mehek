@@ -1,10 +1,11 @@
 "use client";
 
 import * as z from "zod";
-import axios from 'axios'
+import axios from "axios";
 
+import { useState } from "react";
 import { useStoreModal } from "@/hooks/use-store-modal";
-import Modal from "../ui/model";
+import Modal from "../ui/modal";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -17,17 +18,14 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { useState } from "react";
 import toast from "react-hot-toast";
 
 const formSchema = z.object({
   name: z.string().min(1),
 });
 
-
 export const StoreModal = () => {
-
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const storeModal = useStoreModal();
 
@@ -39,25 +37,27 @@ export const StoreModal = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    // TODO: Buat Toko
     try {
       setLoading(true);
 
       const response = await axios.post("/api/stores", values);
-      
+
+      // window.location.assign(`/${response.data.id}`);
       console.log(response.data);
-      toast.success("berhasil membuat toko")
+      toast.success("Berhasil membuat Toko");
+      window.location.assign(`/${response.data.id}`)
     } catch (error) {
-      toast.error("gagal membuat toko")
+      toast.error("Gagal membuat Toko");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-    
   };
 
   return (
     <Modal
       title="Buat Store"
-      description="Tambahkan Store untuk membuat produk dan kategori"
+      description="menambahkan store untuk membuat produk dan kategori"
       isOpen={storeModal.isOpen}
       onClose={storeModal.onClose}
     >
@@ -72,17 +72,27 @@ export const StoreModal = () => {
                   <FormItem>
                     <FormLabel>Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="Nama Toko" {...field} disabled={loading} />
+                      <Input
+                        placeholder="Nama Toko"
+                        {...field}
+                        disabled={loading}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
               <div className="pt-6 space-x-2 flex items-center justify-end w-full">
-                <Button disabled={loading} variant="outline" onClick={storeModal.onClose}>
+                <Button
+                  disabled={loading}
+                  variant="outline"
+                  onClick={storeModal.onClose}
+                >
                   Cancel
                 </Button>
-                <Button disabled={loading} type="submit" >Continue</Button>
+                <Button disabled={loading} type="submit">
+                  Continue
+                </Button>
               </div>
             </form>
           </Form>
