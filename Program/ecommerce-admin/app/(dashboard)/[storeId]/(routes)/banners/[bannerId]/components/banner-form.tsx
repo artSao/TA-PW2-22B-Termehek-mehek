@@ -64,9 +64,13 @@ export const BannerForm: React.FC<BannerFormProps> = ({ initialData }) => {
   const onSubmit = async (data: BannerFormValues) => {
     try {
       setLoading(true);
-      await axios.patch(`/api/stores/${params.storeId}`, data);
+      if (initialData) {
+        await axios.patch(`/api/${params.storeId}/banners/${params.bannerId}}`, data);
+      } else {
+        await axios.post(`/api/${params.storeId}/banners`, data);
+      }
       router.refresh();
-      toast.success("Toko berhasil di update");
+      toast.success(toastMessage);
     } catch (error) {
       toast.error("Cek kembali data yang diinput");
     } finally {
@@ -77,10 +81,10 @@ export const BannerForm: React.FC<BannerFormProps> = ({ initialData }) => {
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/stores/${params.storeId}`);
+      await axios.delete(`/api/${params.storeId}/banners/${params.bannerId}`);
       router.refresh();
       router.push("/");
-      toast.success("Toko berhasil dihapus");
+      toast.success("Banner berhasil dihapus");
     } catch (error) {
       toast.error("Cek kembali data dan koneksi mu");
     } finally {
@@ -125,7 +129,7 @@ export const BannerForm: React.FC<BannerFormProps> = ({ initialData }) => {
                   <FormLabel>label</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="nama Toko"
+                      placeholder="Nama Toko"
                       disabled={loading}
                       {...field}
                     />
