@@ -32,7 +32,7 @@ interface BannerFormProps {
 
 const formSchema = z.object({
   label: z.string().min(3),
-  imageUrl: z.string().min(3)
+  imageUrl: z.string().min(3),
 });
 
 type BannerFormValues = z.infer<typeof formSchema>;
@@ -45,12 +45,19 @@ export const BannerForm: React.FC<BannerFormProps> = ({ initialData }) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const title = initialData ? "Edit Banner" : "Buat Banner";
+  const description = initialData ? "Edit Banner Toko" : "Buat Banner Toko";
+  const toastMessage = initialData
+    ? "Banner berhasil di edit"
+    : "Banner berhasil di buat";
+  const action = initialData ? "Simpan Banner" : "Buat Banner";
+
   const form = useForm<BannerFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData || {
-      label: '',
-      imageUrl: '',
-    }
+      label: "",
+      imageUrl: "",
+    },
   });
 
   const onSubmit = async (data: BannerFormValues) => {
@@ -90,7 +97,8 @@ export const BannerForm: React.FC<BannerFormProps> = ({ initialData }) => {
         loading={loading}
       />
       <div className="flex items-center justify-between">
-        <Heading title="settings" description="Atur Toko" />
+        <Heading title={title} description={description} />
+        {initialData && (
         <Button
           disabled={loading}
           variant="destructive"
@@ -98,7 +106,8 @@ export const BannerForm: React.FC<BannerFormProps> = ({ initialData }) => {
           onClick={() => setOpen(true)}
         >
           <Trash className="h-4 2-4" />
-        </Button>
+          </Button>
+          )}
       </div>
       <Separator />
       <Form {...form}>
@@ -109,10 +118,10 @@ export const BannerForm: React.FC<BannerFormProps> = ({ initialData }) => {
           <div className="grid grid-cols-3 gap-8">
             <FormField
               control={form.control}
-              name="name"
+              name="label"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Nama</FormLabel>
+                  <FormLabel>label</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="nama Toko"
@@ -126,16 +135,11 @@ export const BannerForm: React.FC<BannerFormProps> = ({ initialData }) => {
             />
           </div>
           <Button disabled={loading} type="submit">
-            Save
+            {action}
           </Button>
         </form>
       </Form>
       <Separator />
-      <ApiAlert
-        title="PUBLIC_API_URL"
-        description={`${origin}/api/${params.storeId}`}
-        variant="public"
-      />
     </>
   );
 };

@@ -4,18 +4,14 @@ import { BannerForm } from "./components/banner-form";
 const BannerPage = async ({
     params
 }: {
-    params: { bannerId: string };
+    params: {bannerId: string };
 }) => {
     const banner = await db.banner.findUnique({
         where: {
-            id: params.bannerId,
+            id: params.bannerId
         },
     });
-
-    if (!banner) {
-        return <div>Banner not found</div>;
-    }
-
+    
     return (
         <div className="flex-col">
             <div className="flex-1 space-y-4 p-8 pt-6">
