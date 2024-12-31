@@ -19,16 +19,22 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import toast from "react-hot-toast";
+import axios from "axios";
+import { useParams, useRouter } from "next/navigation";
 
 interface settingPageProps {
   initialData: Store;
 }
 
-const formSchema = z.object({ name: z.string().min(1) });
+const formSchema = z.object({ name: z.string().min(3) });
 
 type SettingsFormValues = z.infer<typeof formSchema>;
 
 export const SettingsForm: React.FC<settingPageProps> = ({ initialData }) => {
+  const params = useParams();
+  const router = useRouter();
+
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -38,14 +44,28 @@ export const SettingsForm: React.FC<settingPageProps> = ({ initialData }) => {
   });
 
   const onSubmit = async (data: SettingsFormValues) => {
-    console.log(data);
+    try {
+      setLoading(true);
+        await axios.patch(`/api/stores/${params.storeId}`, data);
+        router.refresh()
+        toast.success("Toko berhasil di update")
+    } catch (error) {
+      toast.error("Cek kembali data yang diinput");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <>
       <div className="flex items-center justify-between">
         <Heading title="settings" description="Atur Toko" />
-        <Button variant="destructive" size="sm" onClick={() => {}}>
+        <Button
+          disabled={loading}
+          variant="destructive"
+          size="sm"
+          onClick={() => setOpen(true)}
+        >
           <Trash className="h-4 2-4" />
         </Button>
       </div>
