@@ -25,6 +25,7 @@ import { useParams, useRouter } from "next/navigation";
 import { AlertModal } from "@/components/modals/alert-modal";
 import { ApiAlert } from "@/components/ui/api-alert";
 import { useOrigin } from "@/hooks/use-origin";
+import ImageUpload from "@/components/ui/image-upload";
 
 interface BannerFormProps {
   initialData: Banner | null;
@@ -99,15 +100,15 @@ export const BannerForm: React.FC<BannerFormProps> = ({ initialData }) => {
       <div className="flex items-center justify-between">
         <Heading title={title} description={description} />
         {initialData && (
-        <Button
-          disabled={loading}
-          variant="destructive"
-          size="sm"
-          onClick={() => setOpen(true)}
-        >
-          <Trash className="h-4 2-4" />
+          <Button
+            disabled={loading}
+            variant="destructive"
+            size="sm"
+            onClick={() => setOpen(true)}
+          >
+            <Trash className="h-4 2-4" />
           </Button>
-          )}
+        )}
       </div>
       <Separator />
       <Form {...form}>
@@ -128,6 +129,19 @@ export const BannerForm: React.FC<BannerFormProps> = ({ initialData }) => {
                       disabled={loading}
                       {...field}
                     />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="imageUrl"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Image</FormLabel>
+                  <FormControl>
+                    <ImageUpload disabled={loading} onChange={(url) => field.onChange(url)} onRemove={() => field.onChange('')} value={field.value ? [field.value] : []}  />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
