@@ -24,11 +24,22 @@ export async function POST(
     }
     if (!imageUrl) {
       return new NextResponse("Image banner perlu diinput", { status: 400 });
-      }
-      
-      if (!params.storeId) {
-          return new NextResponse("Store id URL dibutuhkan")
-      }
+    }
+
+    if (!params.storeId) {
+      return new NextResponse("Store id URL dibutuhkan");
+    }
+
+    const storeByUserId = await db.store.findFirst({
+      where: {
+        id: params.storeId,
+        userId,
+      },
+    });
+
+    if (!storeByUserId) {
+      return new NextResponse("Unauthorized", { status: 403 });
+    }
 
     const banner = await db.banner.create({
       data: {
@@ -40,7 +51,29 @@ export async function POST(
 
     return NextResponse.json(banner);
   } catch (error) {
-    console.log("[STORE_POST]", error);
+    console.log("[BANNERS_POST]", error);
+    return new NextResponse("Internal server error", { status: 500 });
+  }
+}
+
+export async function GET(
+  req: Request,
+  { params }: { params: { storeId: string } }
+) {
+  try {
+    if (!params.storeId) {
+      return new NextResponse("Store id URL dibutuhkan");
+    }
+
+    const banner = await db.banner.findMany({
+      where: {
+        storeId: params.storeId,
+      },
+    });
+
+    return NextResponse.json(banner);
+  } catch (error) {
+    console.log("[BANNERS_GET]", error);
     return new NextResponse("Internal server error", { status: 500 });
   }
 }
