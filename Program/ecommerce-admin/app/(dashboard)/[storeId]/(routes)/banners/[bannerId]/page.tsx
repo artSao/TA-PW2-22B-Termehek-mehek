@@ -1,7 +1,28 @@
-const BannerPage= () => {
-    return (
-        <div>Ini form untuk Banner</div>
-    )
-}
+import db from "@/lib/db";
+import { BannerForm } from "./components/banner-form";
 
-export default BannerPage
+const BannerPage = async ({
+    params
+}: {
+    params: { bannerId: string };
+}) => {
+    const banner = await db.banner.findUnique({
+        where: {
+            id: params.bannerId,
+        },
+    });
+
+    if (!banner) {
+        return <div>Banner not found</div>;
+    }
+
+    return (
+        <div className="flex-col">
+            <div className="flex-1 space-y-4 p-8 pt-6">
+                <BannerForm initialData={banner} />
+            </div>
+        </div>
+    );
+};
+
+export default BannerPage;
