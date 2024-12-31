@@ -3,13 +3,18 @@ import db from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
-export default async function DashboardLayout({
-  children,
-  params,
-}: {
-  children: React.ReactNode;
-  params: { storeId: string };
-}) {
+export default async function DashboardLayout(
+  props: {
+    children: React.ReactNode;
+    params: Promise<{ storeId: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    children
+  } = props;
+
   const { userId } = await auth();
   if (!userId) {
     redirect("sign-in");

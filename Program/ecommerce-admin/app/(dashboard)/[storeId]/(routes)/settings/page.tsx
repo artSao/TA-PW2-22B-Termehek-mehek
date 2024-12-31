@@ -4,13 +4,14 @@ import { redirect } from "next/navigation";
 import React from "react";
 import { SettingsForm } from "./components/settings-form";
 
-interface settingPageProps {
+interface settingsPageProps {
   params: {
     storeId: string;
   };
 }
 
-const SettingsPage: React.FC<settingPageProps> = async ({ params }) => {
+const SettingsPage: React.FC<settingsPageProps> = async props => {
+  const params = await props.params;
   const { userId } = await auth();
 
   if (!userId) {

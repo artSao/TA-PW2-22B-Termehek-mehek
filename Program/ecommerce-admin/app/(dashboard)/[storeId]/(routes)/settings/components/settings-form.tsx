@@ -23,15 +23,17 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
 
-interface settingPageProps {
+interface settingsPageProps {
   initialData: Store;
 }
 
-const formSchema = z.object({ name: z.string().min(3) });
+const formSchema = z.object({
+  name: z.string().min(3),
+});
 
 type SettingsFormValues = z.infer<typeof formSchema>;
 
-export const SettingsForm: React.FC<settingPageProps> = ({ initialData }) => {
+export const SettingsForm: React.FC<settingsPageProps> = ({ initialData }) => {
   const params = useParams();
   const router = useRouter();
 
@@ -46,9 +48,9 @@ export const SettingsForm: React.FC<settingPageProps> = ({ initialData }) => {
   const onSubmit = async (data: SettingsFormValues) => {
     try {
       setLoading(true);
-        await axios.patch(`/api/stores/${params.storeId}`, data);
-        router.refresh()
-        toast.success("Toko berhasil di update")
+      await axios.patch(`/api/stores/${params.storeId}`, data);
+      router.refresh();
+      toast.success("Toko berhasil di update");
     } catch (error) {
       toast.error("Cek kembali data yang diinput");
     } finally {

@@ -13,7 +13,7 @@ const SetupPage = () => {
     }
   }, [isOpen, onOpen]);
 
-  return null
+  return null;
 };
 
 export default SetupPage;

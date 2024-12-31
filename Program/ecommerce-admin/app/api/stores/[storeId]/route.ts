@@ -3,12 +3,11 @@ import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
 export async function PATCH(
-  req: Request,
-  { params }: { params: { storeId: string } }
-) {
+  req: Request, 
+  { params }: {params: { storeId: string } }) {
   try {
     const { userId } = await auth();
-    const body = await req.json;
+    const body = await req.json();
 
     const { name } = body;
 
@@ -41,35 +40,33 @@ export async function PATCH(
   }
 }
 
-export async function DELETE(
-    req: Request,
-    { params }: { params: { storeId: string } }
-  ) {
-    try {
-      const { userId } = await auth();
-      
-  
-  
-      if (!userId) {
-        return new NextResponse("Unauthenticated", { status: 401 });
-      }
-  
-  
-      if (!params.storeId) {
-        return new NextResponse("store Id dibutuhkan", { status: 400 });
-      }
-  
-      const store = await db.store.deleteMany({
-        where: {
-          id: params.storeId,
-          userId,
-        },
+export async function DELETE(req: Request, props: { params: Promise<{ storeId: string }> }) {
+  const params = await props.params;
+  try {
+    const { userId } = await auth();
+    
 
-      });
-  
-      return NextResponse.json(store);
-    } catch (error) {
-      console.log("[STORE_DELETE]", error);
-      return new NextResponse("Internal Error", { status: 500 });
+
+    if (!userId) {
+      return new NextResponse("Unauthenticated", { status: 401 });
     }
+
+
+    if (!params.storeId) {
+      return new NextResponse("store Id dibutuhkan", { status: 400 });
+    }
+
+    const store = await db.store.deleteMany({
+      where: {
+        id: params.storeId,
+        userId,
+      },
+
+    });
+
+    return NextResponse.json(store);
+  } catch (error) {
+    console.log("[STORE_DELETE]", error);
+    return new NextResponse("Internal Error", { status: 500 });
   }
+}
