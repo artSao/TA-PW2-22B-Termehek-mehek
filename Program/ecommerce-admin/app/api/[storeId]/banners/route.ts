@@ -3,10 +3,8 @@ import db from "@/lib/db"; // pastikan db diimpor dengan benar
 import { NextResponse } from "next/server";
 import { PathParamsContext } from "next/dist/shared/lib/hooks-client-context.shared-runtime";
 
-export async function POST(
-  req: Request,
-  { params }: { params: { storeId: string } }
-) {
+export async function POST(req: Request, props: { params: Promise<{ storeId: string }> }) {
+  const params = await props.params;
   try {
     // Gunakan await untuk mendapatkan hasil dari auth()
     const authResult = await auth(); // auth() mengembalikan Promise
@@ -56,10 +54,8 @@ export async function POST(
   }
 }
 
-export async function GET(
-  req: Request,
-  { params }: { params: { storeId: string } }
-) {
+export async function GET(req: Request, props: { params: Promise<{ storeId: string }> }) {
+  const params = await props.params;
   try {
     if (!params.storeId) {
       return new NextResponse("Store id URL dibutuhkan");
