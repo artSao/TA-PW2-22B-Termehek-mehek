@@ -2,32 +2,31 @@ import db from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
-export async function GET(
-    req: Request,
-    { params }: { params: { bannerId: string } }
-  ) {
-    try {
-      if (!params.bannerId) {
-        return new NextResponse("Banner id dibutuhkan", { status: 400 });
-      }
-  
-      const banner = await db.banner.findUnique({
-        where: {
-          id: params.bannerId,
-        },
-      });
-  
-      return NextResponse.json(banner);
-    } catch (error) {
-      console.log("[BANNER_GET]", error);
-      return new NextResponse("Internal error", { status: 500 });
+export async function GET(req: Request, props: { params: Promise<{ bannerId: string }> }) {
+  const params = await props.params;
+  try {
+    if (!params.bannerId) {
+      return new NextResponse("Banner id dibutuhkan", { status: 400 });
     }
+
+    const banner = await db.banner.findUnique({
+      where: {
+        id: params.bannerId,
+      },
+    });
+
+    return NextResponse.json(banner);
+  } catch (error) {
+    console.log("[BANNER_GET]", error);
+    return new NextResponse("Internal error", { status: 500 });
   }
+}
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { storeId: string; bannerId: string } }
+  props: { params: Promise<{ storeId: string; bannerId: string }> }
 ) {
+  const params = await props.params;
   try {
     const { userId } = await auth();
     const body = await req.json();
@@ -79,8 +78,9 @@ export async function PATCH(
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { storeId: string; bannerId: string } }
+  props: { params: Promise<{ storeId: string; bannerId: string }> }
 ) {
+  const params = await props.params;
   try {
     const { userId } = await auth();
 

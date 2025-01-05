@@ -7,9 +7,10 @@ import { Banner } from "@prisma/client";
 import { Plus } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import React from "react";
+import { BannerColumn } from "./columns";
 
 interface BannerClientProps{
-  data: Banner[]
+  data: BannerColumn[]
 }
 
 export const BannerClient: React.FC<BannerClientProps> = ({
