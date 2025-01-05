@@ -1,27 +1,25 @@
-import { auth } from "@clerk/nextjs/server"; // pastikan auth diimpor dengan benar
-import db from "@/lib/db"; // pastikan db diimpor dengan benar
+import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
-import { PathParamsContext } from "next/dist/shared/lib/hooks-client-context.shared-runtime";
+import db from "@/lib/db";
 
-export async function POST(req: Request,
-  props: { params: Promise<{ storeId: string }> }) {
-  const params = await props.params;
+export async function POST(
+  req: Request,
+  { params }: { params: { storeId: string } }
+) {
   try {
-    // Gunakan await untuk mendapatkan hasil dari auth()
-    const authResult = await auth();
-    // auth() mengembalikan Promise
-    const userId = authResult.userId; // Ambil userId dari hasil auth()
+    const { userId } = await auth();
+    const body = await req.json();
+
+    const { label, imageUrl } = body;
 
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const body = await req.json();
-    const { label, imageUrl } = body;
-
     if (!label) {
       return new NextResponse("Nama banner perlu diinput", { status: 400 });
     }
+
     if (!imageUrl) {
       return new NextResponse("Image banner perlu diinput", { status: 400 });
     }
@@ -52,14 +50,14 @@ export async function POST(req: Request,
     return NextResponse.json(banner);
   } catch (error) {
     console.log("[BANNERS_POST]", error);
-    return new NextResponse("Internal server error", { status: 500 });
+    return new NextResponse("Internal error", { status: 500 });
   }
 }
 
-export async function GET(req: Request,
-  props: { params: Promise<{ storeId: string }> }
+export async function GET(
+  req: Request,
+  { params }: { params: { storeId: string } }
 ) {
-  const params = await props.params;
   try {
     if (!params.storeId) {
       return new NextResponse("Store id URL dibutuhkan");
@@ -74,6 +72,6 @@ export async function GET(req: Request,
     return NextResponse.json(banner);
   } catch (error) {
     console.log("[BANNERS_GET]", error);
-    return new NextResponse("Internal server error", { status: 500 });
+    return new NextResponse("Internal error", { status: 500 });
   }
 }
