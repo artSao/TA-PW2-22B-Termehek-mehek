@@ -4,11 +4,12 @@ import { BannerColumn } from "./components/columns";
 
 import { format } from 'date-fns'
 
-const BannersPage = async ({
-  params
-}: {
-  params: { storeId: string}
-}) => {
+const BannersPage = async (
+  props: {
+    params: Promise<{ storeId: string}>
+  }
+) => {
+  const params = await props.params;
   const banners = await db.banner.findMany({
     where: {
       storeId: params.storeId

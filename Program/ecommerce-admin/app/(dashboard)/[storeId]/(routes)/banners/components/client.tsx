@@ -7,7 +7,8 @@ import { Banner } from "@prisma/client";
 import { Plus } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import React from "react";
-import { BannerColumn } from "./columns";
+import { BannerColumn, columns } from "./columns";
+import { DataTable } from "@/components/ui/data-table";
 
 interface BannerClientProps{
   data: BannerColumn[]
@@ -18,6 +19,7 @@ export const BannerClient: React.FC<BannerClientProps> = ({
 }) => {
   const router = useRouter();
   const params = useParams();
+
   return (
     <>
       <div className="flex items-center justify-between">
@@ -29,6 +31,7 @@ export const BannerClient: React.FC<BannerClientProps> = ({
         </Button>
       </div>
       <Separator />
+      <DataTable data={data} columns={columns} />
     </>
   );
 };
