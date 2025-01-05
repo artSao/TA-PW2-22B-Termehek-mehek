@@ -45,25 +45,30 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
               <Button
                 type="button"
                 onClick={() => onRemove(url)}
-                variant={"destructive"}
+                variant="destructive"
                 size="icon"
               >
                 <Trash className="h-4 w-4" />
               </Button>
             </div>
-            <Image fill className="object-cover" alt="image" src={url} />
+            <Image fill className="object-cover" alt="Image" src={url} />
           </div>
         ))}
       </div>
-      <CldUploadWidget onSuccess={onUpload} uploadPreset="yz4t79xy">
+      <CldUploadWidget onSuccess={onUpload} uploadPreset="jsoz7mzz">
         {({ open }) => {
           const onClick = () => {
             open();
           };
           return (
-            <Button type="button" disabled={disabled} variant={"secondary"} onClick={onClick}>
-                  <ImagePlus className="h-4 w-4 ml-2" />
-                  Upload Image
+            <Button
+              type="button"
+              disabled={disabled}
+              variant="secondary"
+              onClick={onClick}
+            >
+              <ImagePlus className="h-4 w-4 mr-2" />
+              Upload image
             </Button>
           );
         }}
