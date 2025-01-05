@@ -11,6 +11,7 @@ export type BannerColumn = {
 }
 
 export const columns: ColumnDef<BannerColumn>[] = [
+  
   {
     accessorKey: "label",
     header: "label",
