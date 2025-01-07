@@ -18,7 +18,7 @@ const CategoriesPage = async (
       banner: true,
     },
     orderBy: {
-      createAt: 'desc'
+      createdAt: 'desc'
     }
   })
 
@@ -26,7 +26,7 @@ const CategoriesPage = async (
     id: item.id,
     name: item.name,
     bannerLabel: item.banner.label,
-    createdAt: format(item.createAt, "MMM do, yyyy")
+    createdAt: format(item.createdAt, "MMM do, yyyy")
   }))
 
   return (

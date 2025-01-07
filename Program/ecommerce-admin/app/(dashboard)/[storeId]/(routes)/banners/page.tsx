@@ -15,14 +15,14 @@ const BannersPage = async (
       storeId: params.storeId
     },
     orderBy: {
-      createAt: 'desc'
+      createdAt: 'desc'
     }
   })
 
   const formattedBanners:BannerColumn[] = banners.map((item) => ({
     id: item.id,
     label: item.label,
-    createdAt: format(item.createAt, "MMM do, yyyy")
+    createdAt: format(item.createdAt, "MMM do, yyyy")
   }))
 
   return (
