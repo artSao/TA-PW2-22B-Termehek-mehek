@@ -6,12 +6,12 @@ import { Separator } from "@/components/ui/separator";
 import { Plus } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import React from "react";
-import { CategoryCollumn, columns } from "./columns";
+import { CategoryColumn, columns } from "./columns";
 import { DataTable } from "@/components/ui/data-table";
 import { ApiList } from "@/components/ui/api-list";
 
 interface CategoryClientProps {
-  data: CategoryCollumn[];
+  data: CategoryColumn[];
 }
 
 export const CategoryClient: React.FC<CategoryClientProps> = ({ data }) => {
@@ -31,7 +31,7 @@ export const CategoryClient: React.FC<CategoryClientProps> = ({ data }) => {
         </Button>
       </div>
       <Separator />
-      <DataTable data={data} columns={columns} seachKey="label" />
+      <DataTable data={data} columns={columns} searchKey="name" />
       <Heading title="Api" description="Api untuk categories" />
       <Separator />
       <ApiList namaIndikator="categories" idIndikator="categoryId" />

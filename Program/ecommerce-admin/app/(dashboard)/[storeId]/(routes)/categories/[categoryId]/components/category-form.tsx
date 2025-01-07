@@ -79,7 +79,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
           data
         );
       } else {
-        await axios.post(`/api/${params.storeId}/`, data);
+        await axios.post(`/api/${params.storeId}/categories`, data);
       }
       router.refresh();
       router.push(`/${params.storeId}/categories`);
@@ -144,7 +144,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
                   <FormLabel>Nama</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Nama kategori"
+                      placeholder="Nama Category"
                       disabled={loading}
                       {...field}
                     />
@@ -170,7 +170,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
                         <SelectTrigger>
                           <SelectValue
                             defaultValue={field.value}
-                            placeholder="pilih banner"
+                            placeholder="Pilih Banner"
                           />
                         </SelectTrigger>
                       </FormControl>

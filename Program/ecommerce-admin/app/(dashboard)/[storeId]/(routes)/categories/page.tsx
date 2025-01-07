@@ -1,6 +1,6 @@
 import db from "@/lib/db";
 import { CategoryClient } from "./components/client";
-import { CategoryCollumn } from "./components/columns";
+import { CategoryColumn } from "./components/columns";
 
 import { format } from 'date-fns'
 
@@ -22,7 +22,7 @@ const CategoriesPage = async (
     }
   })
 
-  const formattedCategories:CategoryCollumn[] = categories.map((item) => ({
+  const formattedCategories:CategoryColumn[] = categories.map((item) => ({
     id: item.id,
     name: item.name,
     bannerLabel: item.banner.label,
