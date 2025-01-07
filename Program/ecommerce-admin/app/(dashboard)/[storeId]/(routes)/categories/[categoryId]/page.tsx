@@ -3,7 +3,7 @@ import { CategoryForm } from "./components/category-form";
 
 const CategoryPage = async (
     props: {
-        params: Promise<{categoryId: string}>
+        params: Promise<{categoryId: string, storeId: string}>
     }
 ) => {
     const params = await props.params;
@@ -13,10 +13,18 @@ const CategoryPage = async (
         }
     })
 
+    const banners = await db.banner.findMany({
+        where: {
+            storeId: params.storeId
+        }
+    })
+
     return ( 
         <div className="flex-col">
            <div className="flex-1 space-y-4 p-8 pt-6">
-            <CategoryForm initialData={category} />
+                <CategoryForm
+                    banners={banners}
+                    initialData={category} />
            </div>
         </div>
      );
