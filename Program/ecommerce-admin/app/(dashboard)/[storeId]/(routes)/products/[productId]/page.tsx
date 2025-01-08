@@ -1,25 +1,34 @@
 import db from "@/lib/db";
-import { BannerForm } from "./components/product-form";
+import { ProductForm } from "./components/product-form";
 
-const BannerPage = async (
+const ProductPage = async (
     props: {
-        params: Promise<{bannerId: string}>
+        params: Promise<{productId: string, storeId: string}>
     }
 ) => {
     const params = await props.params;
-    const banner = await db.banner.findUnique({
+    const product = await db.product.findUnique({
         where: {
-            id: params.bannerId
+            id: params.productId
+        },
+        include: {
+            images: true
+        },
+    })
+
+    const categories = await db.category.findMany({
+        where: {
+            storeId: params.storeId
         }
     })
 
     return ( 
         <div className="flex-col">
            <div className="flex-1 space-y-4 p-8 pt-6">
-            <BannerForm initialData={banner} />
+            <ProductForm initialData={product} categories={categories/>
            </div>
         </div>
      );
 }
  
-export default BannerPage;
+export default ProductPage;

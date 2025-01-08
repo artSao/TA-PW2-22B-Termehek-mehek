@@ -1,10 +1,12 @@
 import db from "@/lib/db";
-import { BannerClient } from "./components/client";
-import { BannerColumn } from "./components/columns";
+import { ProductClient } from "./components/client";
+import { ProductColumn } from "./components/columns";
 
 import { format } from 'date-fns'
+import { formatter } from "@/lib/utils";
+// import ProductPage from "./[productId]/page";
 
-const ProductsPage = async (
+const ProductPage = async (
   props: {
     params: Promise<{ storeId: string}>
   }
@@ -22,22 +24,23 @@ const ProductsPage = async (
     }
   })
 
-  const formattedProducts:BannerColumn[] = products.map((item) => ({
+  const formattedProducts:ProductColumn[] = products.map((item) => ({
     id: item.id,
     name: item.name,
     isFeatured: item.isFeatured,
     isArchived: item.isArchived,
-    price: item.price,
+    price: formatter.format(item.price.toNumber()),
+    category: item.category.name,
     createdAt: format(item.createdAt, "MMM do, yyyy")
   }))
 
   return (
     <div className="flex-col">
       <div className="flex-1 space-y-4 p-8 pt-6">
-        <BannerClient data={formattedProducts} />
+        <ProductClient data={formattedProducts} />
       </div>
     </div>
   );
 };
 
-export default ProductsPage;
+export default ProductPage;
