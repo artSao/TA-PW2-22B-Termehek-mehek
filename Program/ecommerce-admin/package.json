@@ -1,12 +1,12 @@
 {
+  "dev": "next dev",
   "name": "ecommerce-admin",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "dev": "next dev"
+    "lint": "next lint"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.9.6",
