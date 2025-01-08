@@ -20,7 +20,7 @@ model Store {
   banners   Banner[]  @relation("StoreToBanner")
   categories Category[] @relation("StoreToCategory")
   product Product[] @relation("StoreToProduct")
-  createAt  DateTime  @default(now())
+  createdAt  DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 
 }

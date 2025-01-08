@@ -2,23 +2,23 @@ import db from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
-export async function GET(
-  req: Request,
-  props: { params: Promise<{ categoryId: string }> }
-) {
+export async function GET(req: Request, props: { params: Promise<{ categoryId: string }> }) {
   const params = await props.params;
   try {
     if (!params.categoryId) {
       return new NextResponse("Category id dibutuhkan", { status: 400 });
     }
 
-    const Category = await db.category.findUnique({
+    const category = await db.category.findUnique({
       where: {
         id: params.categoryId,
       },
+      include: {
+        banner: true,
+      },
     });
 
-    return NextResponse.json(Category);
+    return NextResponse.json(category);
   } catch (error) {
     console.log("[CATEGORY_GET]", error);
     return new NextResponse("Internal error", { status: 500 });
@@ -48,7 +48,7 @@ export async function PATCH(
     }
 
     if (!params.categoryId) {
-      return new NextResponse("category id dibutuhkan", { status: 400 });
+      return new NextResponse("Category id dibutuhkan", { status: 400 });
     }
 
     const storeByUserId = await db.store.findFirst({

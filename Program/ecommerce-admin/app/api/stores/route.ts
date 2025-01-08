@@ -1,19 +1,17 @@
-import { auth } from "@clerk/nextjs/server"; // pastikan auth diimpor dengan benar
-import db from "@/lib/db"; // pastikan db diimpor dengan benar
+import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
+import db from "@/lib/db";
 
 export async function POST(req: Request) {
   try {
-    // Gunakan await untuk mendapatkan hasil dari auth()
-    const authResult = await auth(); // auth() mengembalikan Promise
-    const userId = authResult.userId; // Ambil userId dari hasil auth()
+    const { userId } = await auth();
+    const body = await req.json();
+
+    const { name } = body;
 
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
-
-    const body = await req.json();
-    const { name } = body;
 
     if (!name) {
       return new NextResponse("Nama toko perlu diinput", { status: 400 });
@@ -28,7 +26,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json(store);
   } catch (error) {
-    console.log("[STORE_POST]", error);
-    return new NextResponse("Internal server error", { status: 500 });
+    console.log("[STORES_POST]", error);
+    return new NextResponse("Internal error", { status: 500 });
   }
 }

@@ -19,7 +19,7 @@ export async function POST(req: Request, props: { params: Promise<{ storeId: str
     }
 
     if (!bannerId) {
-      return new NextResponse("banner Id perlu diinput", { status: 400 });
+      return new NextResponse("Banner Id perlu diinput", { status: 400 });
     }
 
     if (!params.storeId) {

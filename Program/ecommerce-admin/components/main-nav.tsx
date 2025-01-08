@@ -3,7 +3,6 @@
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
-import React from "react";
 
 export function MainNav({
   className,
@@ -30,7 +29,7 @@ export function MainNav({
     },
     {
       href: `/${params.storeId}/products`,
-      label: "products",
+      label: "Products",
       active: pathname === `/${params.storeId}/products`,
     },
     {
