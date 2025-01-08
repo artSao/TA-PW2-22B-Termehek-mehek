@@ -1,11 +1,12 @@
 import db from "@/lib/db";
 import { CategoryForm } from "./components/category-form";
 
-const CategoryPage = async ({
-    params
-}: {
-    params: {categoryId: string, storeId: string}
-}) => {
+const CategoryPage = async (
+    props: {
+        params: Promise<{categoryId: string, storeId: string}>
+    }
+) => {
+    const params = await props.params;
     const category = await db.category.findUnique({
         where: {
             id: params.categoryId
