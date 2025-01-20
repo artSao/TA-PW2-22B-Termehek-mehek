@@ -8,6 +8,8 @@ import ProductCard from "@/components/ui/product-card";
 interface CategoryPageProps {
   params: {
     categoryId: string;
+    categoryEnum: Array<String>;
+    categoryAnakAnak: String;
   };
 }
 
